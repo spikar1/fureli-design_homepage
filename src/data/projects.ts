@@ -1,104 +1,112 @@
 export interface Project {
+  tags: string[];
   id: string;
   title: string;
-  year: string;
-  description: string;
-  fullDescription?: string;
-  imageUrl?: string;
-  unityBuild?: string;
-  tags: string[];
-  link?: string;
+  shortDescription: string;
+  fullDescription: string;
   role?: string;
-  teamSize?: string;
-  event?: string;
+  year: string;
+  image: string;
+  thumbnail: string;
+  video?: string;
+  unityBuild?: string;
+  link?: string;
 }
+
+// Helper function to get project image paths
+export const getProjectImages = (projectId: string) => {
+  const getImagePath = (name: string) => {
+    return `/projects/${projectId}/${name}`;
+  };
+
+  return {
+    image: getImagePath('main'),
+    thumbnail: getImagePath('thumbnail'),
+    video: `/projects/${projectId}/video.mp4`,
+  };
+};
 
 export const projects: Project[] = [
   {
+    title: 'Odyssey',
+    tags: ['Game Development', 'Adventure', '2023'],
     id: 'odyssey',
-    title: 'Odyssey 2023',
+    shortDescription: 'An immersive adventure game set in a futuristic world.',
+    fullDescription: 'Odyssey 2023 is an immersive adventure game that takes players on a journey through a beautifully crafted futuristic world. With stunning visuals and engaging gameplay mechanics, players must navigate through various challenges while uncovering the mysteries of this unique universe.',
     year: '2023',
-    description: 'A puzzle game developed in Unity.',
-    fullDescription: 'A challenging puzzle game where players navigate through intricate levels, solving puzzles and overcoming obstacles. Built with Unity, featuring modern graphics and intuitive controls.',
-    tags: ['Game Development', 'Unity', 'Puzzle'],
-    role: 'Lead Developer',
-    teamSize: '3 people',
-    unityBuild: '/unity-builds/odyssey'
+    ...getProjectImages('odyssey'),
+    unityBuild: '/unity-builds/odyssey',
   },
   {
-    id: 'odd-odyssey',
     title: 'Odd Odyssey',
+    id: 'odd-odyssey',
+    tags: ['Game Development', 'Puzzle', '2023'],
+    shortDescription: 'A quirky puzzle-platformer with unique mechanics.',
+    fullDescription: 'Odd Odyssey is a charming puzzle-platformer that combines classic platforming elements with innovative puzzle mechanics. Players control a unique character with special abilities, solving puzzles and overcoming obstacles in a world filled with surprises and challenges.',
     year: '2023',
-    description: 'A game jam project developed in Unity.',
-    fullDescription: 'Created during a 48-hour game jam, Odd Odyssey is a unique platformer that challenges players to think outside the box. Features innovative mechanics and a distinctive art style.',
-    tags: ['Game Development', 'Game Jam', 'Platformer'],
-    role: 'Developer',
-    teamSize: '2 people',
-    event: 'Game Jam 2023',
-    unityBuild: '/unity-builds/odd-odyssey'
+    ...getProjectImages('odd-odyssey'),
+    unityBuild: '/unity-builds/odd-odyssey',
   },
   {
-    id: 'pattern-puzzle-2023',
     title: 'Steffen Furelis Pattern Puzzle',
+    tags: ['Game Development', 'Puzzle', '2023'],
+    id: 'pattern-puzzle',
     year: '2023',
-    description: 'A pattern-matching puzzle game built on the foundation of Gas Control Repair.',
+    shortDescription: 'A pattern-matching puzzle game built on the foundation of Gas Control Repair.',
     fullDescription: `Steffen Fureli's Pattern Puzzle is a game that is built on the foundation of Gas Control Repair.
 
 
 After gaining funding from Viken Filminstitutt the game has been remade from the ground up, adding new mechanics and graphics.`,
-    tags: ['Game Development', 'Puzzle', '2023'],
-    role: 'Lead Developer',
-    unityBuild: '/unity-builds/pattern-puzzle'
+    unityBuild: '/unity-builds/pattern-puzzle',
+    ...getProjectImages('pattern-puzzle'),
   },
   {
-    id: 'forest-spirits-2023',
     title: 'Forest Spirits',
+    tags: ['Game Development', 'Mobile', '2023', 'Puzzle'],
+    id: 'forest-spirits',
     year: '2023',
-    description: 'A modern take on the classic Color Lines game with new mechanics and scoring system.',
+    shortDescription: 'A modern take on the classic Color Lines game with new mechanics and scoring system.',
     fullDescription: `Forest Spirits is a game made by and published by myself with the help of a small team of four people. The game is simple at its core, and heavily based on the old classic Color Lines.
 
 Rather than a cold copy, our version introduces new levels, new mechanics, and a new scoring system.`,
-    tags: ['Game Development', 'Mobile', '2023', 'Puzzle'],
-    teamSize: '4 people',
-    link: 'https://play.google.com/store/apps/details?id=com.fureli.forestspirits'
+    link: 'https://play.google.com/store/apps/details?id=com.fureli.forestspirits',
+    ...getProjectImages('forest-spirits'),
   },
   {
-    id: 'gas-control-repair-2020',
     title: 'Gas Control Repair',
+    tags: ['Game Development', 'Game Jam', '2020', 'Puzzle'],
+    id: 'gas-control-repair',
     year: '2020',
-    description: 'A Global Game Jam project about repairing gas control systems through pattern matching.',
+    shortDescription: 'A Global Game Jam project about repairing gas control systems through pattern matching.',
     fullDescription: `This was a Global Game Jam game made at Bergen Game Jam 2020.
 We were a group of six people that was placed in a random group to make a game in 48 hours. The theme for the Jam was "Repair".
 
 In this project I did all programming, implementation and was group leader. The design evolved very much from iterations and playtesting by paper prototypes.
 
 The goal of this game is to navigate through nodes on the map to the right, by building all patterns along a path on the left side. The game is played with both WASD and arrow keys for the crane and map controls, in that order.`,
-    tags: ['Game Development', 'Game Jam', '2020', 'Puzzle'],
-    role: 'Lead Developer & Group Leader',
-    teamSize: '6 people',
-    event: 'Global Game Jam 2020',
-    link: 'https://globalgamejam.org/2020/games/gas-control-repair-9'
+    link: 'https://globalgamejam.org/2020/games/gas-control-repair-9',
+    ...getProjectImages('gas-control-repair'),
   },
   {
-    id: 'knightball-2020',
     title: 'Knightball',
+    tags: ['Game Development', 'Sports', '2020'],
+    id: 'knightball',
     year: '2020',
-    description: 'A medieval sports game where players ram each other into a dragon\'s mouth.',
+    shortDescription: 'A medieval sports game where players ram each other into a dragon\'s mouth.',
     fullDescription: `This game was made during the Norwegian NM i Gameplay, a competition run very much like a three day-game jam, but with money prices and judges. We were a group of six people.
 
 In this game I was project lead and lead designer. I did all implementation of graphics and all graphical coding.
 
 Knightball is about a sport in which there is no ball, only players. The goal of the game is to ram the other players into the mouth of the dragon, which in turn scores a goal. The team to lose all players first loses.`,
-    tags: ['Game Development', 'Sports', '2020'],
-    role: 'Project Lead & Lead Designer',
-    teamSize: '6 people',
-    event: 'Norwegian NM i Gameplay'
+    link: 'https://globalgamejam.org/2020/games/knightball',
+    ...getProjectImages('knightball'),
   },
   {
-    id: 'cybility-2020',
     title: 'Cybility',
+    tags: ['Game Development', 'Game Jam', '2018', 'Retro'],
+    id: 'cybility',
     year: '2018',
-    description: 'A retro-style game where players can steal abilities from each other.',
+    shortDescription: 'A retro-style game where players can steal abilities from each other.',
     fullDescription: `This was a Global Game Jam game made at Bergen Game Jam 2018.
 We were a group of four people in a pre-assigned group to make a game in 48 hours. The theme for the Jam was "Transmission", And our take on the theme was to "steal" abilities from a coop player.
 
@@ -107,17 +115,16 @@ Our artist is a beast in Pixel Art, so our graphical style leaned towards retro 
 In retrospect the design didn't work as well as we hoped, but the game do look stunning!
 
 In this project my role was a Game Designer and Technical Artist. I did all graphical implementations and visual effects.`,
-    tags: ['Game Development', 'Game Jam', '2018', 'Retro'],
     role: 'Game Designer & Technical Artist',
-    teamSize: '4 people',
-    event: 'Global Game Jam 2018',
-    link: 'https://globalgamejam.org/2018/games/cybility'
+    link: 'https://globalgamejam.org/2018/games/cybility',
+    ...getProjectImages('cybility'),
   },
   {
-    id: 'rocket-billies-2020',
     title: 'Rocket Billies',
+    tags: ['Game Development', 'Action', '2018', 'Multiplayer'],
+    id: 'rocket-billies',
     year: '2018',
-    description: 'A four-player game where two players must cooperate to drive one vehicle.',
+    shortDescription: 'A four-player game where two players must cooperate to drive one vehicle.',
     fullDescription: `This game was made during the Norwegian NM i Gameplay 2018, a competition run very much like a two week-game jam, but with money prices and judges. We were a group of seven people.
 
 In this game I was gameplay programmer. I also did all implementation of graphics and all graphical coding.
@@ -125,31 +132,29 @@ In this game I was gameplay programmer. I also did all implementation of graphic
 Rocket Billies is a game about destroying you opponents vehicle with attached guns!
 The catch? there are two drivers per vehicle!
 In this four player game two players must cooperate to drive one vehicle, controlling a half of the vehicle each.`,
-    tags: ['Game Development', 'Action', '2018', 'Multiplayer'],
-    role: 'Gameplay Programmer',
-    teamSize: '7 people',
-    event: 'Norwegian NM i Gameplay 2018'
+    link: 'https://globalgamejam.org/2018/games/rocket-billies',
+    ...getProjectImages('rocket-billies'),
   },
   {
-    id: 'cascade-2017',
     title: 'Cascade',
+    tags: ['Game Development', 'Game Jam', '2017'],
+    id: 'cascade',
     year: '2017',
-    description: 'A wave-based game created during Global Game Jam 2017.',
+    shortDescription: 'A wave-based game created during Global Game Jam 2017.',
     fullDescription: `This was a Global Game Jam game made at Bergen Game Jam.
 We were a group of five people that was placed in a random group to make a game in 48 hours. The theme for the Jam was "Wave", and that was the basis for the visual style we implemented.
 
 I was in charge of gameplay design and programming, plus I did all visual implementations and effects.`,
-    tags: ['Game Development', 'Game Jam', '2017'],
     role: 'Gameplay Designer & Programmer',
-    teamSize: '5 people',
-    event: 'Global Game Jam 2017',
-    link: 'https://globalgamejam.org/2017/games/cascade'
+    link: 'https://globalgamejam.org/2017/games/cascade',
+    ...getProjectImages('cascade'),
   },
   {
-    id: 'that-pariah-game-2015',
     title: 'That Pariah Game',
+    tags: ['Game Development', '2D', '2015', 'Shooter'],
+    id: 'that-pariah-game',
     year: '2015',
-    description: 'A 2D physics-based shooter inspired by Super Crate Box and Metroidvania games.',
+    shortDescription: 'A 2D physics-based shooter inspired by Super Crate Box and Metroidvania games.',
     fullDescription: `A 2D shooter relying heavily on physics.
 
 This was a project I did with a classmate second year at Noroff in Bergen, Norway.
@@ -159,40 +164,37 @@ We were big fans of the game "Super Crate Box" at the time, and had always wante
 Technique wise, we decieded to play on one of our weaknesses, being that we did not have an artist on the team. The lack of an artist made us want to create a "textureless" design, where nothing had texture applied. This is ofcourse only half true, as we faked alot of shadows and AO using baked textures.
 
 but the vision remained.`,
-    tags: ['Game Development', '2D', '2015', 'Shooter'],
-    teamSize: '2 people',
-    event: 'Noroff Bergen'
+    ...getProjectImages('that-pariah-game'),
   },
   {
-    id: 'landscape-generator-2015',
+    id: 'landscape-generator',
     title: 'Landscape Generator/Editor',
     year: '2015',
-    description: 'A procedural level design tool using Houdini and Houdini Engine for Unity.',
+    shortDescription: 'A procedural level design tool using Houdini and Houdini Engine for Unity.',
     fullDescription: `A procedural approach to creative freedom in level design.
 
 Final Year Project at Teesside University.
 
 The goal was to create a tool using Houdini and Houdini Engine for Unity in which it was possible to create a fulle fledged level from start to finish directly in the Unity game engine.`,
     tags: ['Tool Development', 'Procedural Generation', '2015', 'Unity'],
-    role: 'Developer',
-    event: 'Teesside University',
-    link: 'https://steffenfureli.wordpress.com/'
+    link: 'https://steffenfureli.wordpress.com/',
+    ...getProjectImages('landscape-generator'),
   },
   {
-    id: 'ibrahim-sands-2014',
     title: 'Ibrahim Sands',
-    year: '2014',
-    description: 'A level designed and created in UDK for a 9-week project at Noroff Bergen.',
-    fullDescription: `Ibrahim Sands is a level I designed and made in UDK for our 9-week project at Noroff Bergen.`,
     tags: ['Level Design', 'UDK', '2014'],
-    role: 'Level Designer',
-    event: 'Noroff Bergen'
+    id: 'ibrahim-sands',
+    year: '2014',
+    shortDescription: 'A level designed and created in UDK for a 9-week project at Noroff Bergen.',
+    fullDescription: `Ibrahim Sands is a level I designed and made in UDK for our 9-week project at Noroff Bergen.`,
+    ...getProjectImages('ibrahim-sands'),
   },
   {
-    id: 'the-rafinery-2014',
     title: 'The Rafinery',
+    tags: ['Level Design', 'UDK', '2014', 'Survival'],
+    id: 'the-rafinery',
     year: '2014',
-    description: 'A factory-themed survival game level created in UDK.',
+    shortDescription: 'A factory-themed survival game level created in UDK.',
     fullDescription: `"The Refinery" is a gamelevel I made for an assignement at Noroff.
 We were to design the layout of the level, build it with bsp-brushes first and then set-dress it afterwards, using only the included assets from the udk-engine. Afterwards we also had the task in utilizing kismet to make a survival game.
 
@@ -203,8 +205,6 @@ I designed the layout considering the survival mode of gameplay, and tried to ma
 This is, hopefully, achieved by how the level opens up more and more when you reach higher waves, in the end you even get to go out and play on what seemed to be only the backround at first.
 
 After a lot of testing with the bsp-brushes in udk, I used the udk-assets and set dressed the level in finer details.`,
-    tags: ['Level Design', 'UDK', '2014', 'Survival'],
-    role: 'Level Designer',
-    event: 'Noroff'
+    ...getProjectImages('the-rafinery'),
   }
 ]; 

@@ -41,7 +41,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
           <div className="col-span-12">
             <div className="flex items-center gap-4 mb-8">
               <Link href="/" className="text-blue-400 hover:text-blue-300">
-                ← Back to Projects
+                ← Back to Front Page
               </Link>
             </div>
 
@@ -121,28 +121,11 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
           >
             <h2 className="text-2xl font-semibold mb-4">Project Details</h2>
             <div className="space-y-4">
-              {project.role && (
-                <div>
-                  <h3 className="text-gray-400 mb-1">Role</h3>
-                  <p>{project.role}</p>
-                </div>
-              )}
-              {project.teamSize && (
-                <div>
-                  <h3 className="text-gray-400 mb-1">Team Size</h3>
-                  <p>{project.teamSize}</p>
-                </div>
-              )}
-              {project.event && (
-                <div>
-                  <h3 className="text-gray-400 mb-1">Event</h3>
-                  <p>{project.event}</p>
-                </div>
-              )}
               <div>
                 <h3 className="text-gray-400 mb-1">Year</h3>
                 <p>{project.year}</p>
               </div>
+              
             </div>
           </motion.div>
 
@@ -154,7 +137,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
           >
             <h2 className="text-2xl font-semibold mb-4">Description</h2>
             <p className="text-gray-300 leading-relaxed">
-              {project.fullDescription || project.description}
+              {project.fullDescription || project.shortDescription}
             </p>
           </motion.div>
 
@@ -188,6 +171,12 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               </a>
             </motion.div>
           )}
+
+          <div className="col-span-12">
+            <div className="mb-8">
+                //Image goes here
+            </div>
+          </div>
         </div>
       </motion.div>
     </div>

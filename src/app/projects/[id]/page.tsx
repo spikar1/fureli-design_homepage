@@ -174,7 +174,8 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
 
           <div className="col-span-12">
             <div className="mb-8">
-                //Image goes here
+                {//Image goes here
+                }
             </div>
           </div>
         </div>

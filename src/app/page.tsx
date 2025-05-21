@@ -21,7 +21,7 @@ const staggerContainer = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen container mx-auto">
+    <main className="min-h-screen mx-auto">
       <Navigation />
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800 text-white">

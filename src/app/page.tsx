@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Navigation from '@/components/Navigation'
 import ProjectCard from '@/components/ProjectCard'
 import { projects } from '@/data/projects'
+import { ProjectMosaic } from '@/components/ProjectMosaic';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -24,7 +25,8 @@ export default function Home() {
     <main className="min-h-screen mx-auto">
       <Navigation />
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      <section className="relative h-screen flex items-center justify-center bg-gradient-to-b from-gray-900/95 to-gray-800/80  text-white">
+        <ProjectMosaic />
         <div className="mx-auto px-4">
           <motion.div
             variants={staggerContainer}

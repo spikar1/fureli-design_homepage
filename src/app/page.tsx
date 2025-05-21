@@ -5,7 +5,6 @@ import Navigation from '@/components/Navigation'
 import ProjectCard from '@/components/ProjectCard'
 import { projects } from '@/data/projects'
 import { ProjectMosaic } from '@/components/ProjectMosaic';
-import router from 'next/router';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },

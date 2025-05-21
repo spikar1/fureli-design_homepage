@@ -5,6 +5,7 @@ import Navigation from '@/components/Navigation'
 import ProjectCard from '@/components/ProjectCard'
 import { projects } from '@/data/projects'
 import { ProjectMosaic } from '@/components/ProjectMosaic';
+import router from 'next/router';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -25,9 +26,9 @@ export default function Home() {
     <main className="min-h-screen mx-auto">
       <Navigation />
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-b from-gray-900/95 to-gray-800/80  text-white">
+      <section className="relative h-screen flex items-center justify-center bg-gradient-to-b from-gray-900/95 to-gray-800/80  text-white pointer-events-none">
         <ProjectMosaic />
-        <div className="mx-auto px-4">
+        <div className="mx-auto px-4 pointer-events-none">
           <motion.div
             variants={staggerContainer}
             initial="initial"
@@ -51,6 +52,12 @@ export default function Home() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="bg-white text-gray-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+              onClick={() => {
+                const projectsSection = document.getElementById('projects');
+                if (projectsSection) {
+                  projectsSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               View Our Work
             </motion.button>

@@ -35,7 +35,7 @@ export default function ContactPage() {
               </a>
 
               <a 
-                href="linkedin.com/in/steffen-m-fureli-491b182b" 
+                href="https://linkedin.com/in/steffen-m-fureli-491b182b" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="block p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"

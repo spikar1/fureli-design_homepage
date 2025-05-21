@@ -7,6 +7,7 @@ import { projects } from '@/data/projects';
 
 export const ProjectMosaic = () => {
   const [mounted, setMounted] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const [shuffledProjects] = useState(() => {
     const allProjects = [...projects];
     // Shuffle the array
@@ -38,23 +39,35 @@ export const ProjectMosaic = () => {
   if (!mounted) return null;
 
   return (
-    <div className="grid grid-cols-6 p-1 -z-10 w-full h-full absolute">
-      {shuffledProjects.map(({ project, type }, index) => (
-        <Link
-          key={`${project.id}-${type}-${index}`}
-          href={`/projects/${project.id}`}
-          className="relative w-full h-full overflow-hidden hover:scale-105 transition-transform duration-300"
-        >
-          <Image
-            src={`/projects/${project.id}/${type}.png`}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 33vw, 16vw"
-          />
-        </Link>
-      ))}
-    </div>
+    <>
+      {!imagesLoaded && (
+        <div className="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
+          <div className="text-white text-xl">Loading...</div>
+        </div>
+      )}
+      <div className={`grid grid-cols-6 p-1 -z-10 w-full h-full absolute ${imagesLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500 pointer-events-auto`}>
+        {shuffledProjects.map(({ project, type }, index) => (
+          <Link
+            key={`${project.id}-${type}-${index}`}
+            href={`/projects/${project.id}`}
+            className="relative w-full h-full overflow-hidden hover:scale-105 transition-transform duration-300"
+          >
+            <Image
+              src={`/projects/${project.id}/${type}.png`}
+              alt={project.title}
+              fill
+              className="object-cover pointer-events-auto"
+              sizes="(max-width: 768px) 33vw, 16vw"
+              onLoadingComplete={() => {
+                if (index === shuffledProjects.length - 1) {
+                  setImagesLoaded(true);
+                }
+              }}
+            />
+          </Link>
+        ))}
+      </div>
+    </>
   );
 };
      

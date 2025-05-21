@@ -1,83 +1,114 @@
 'use client';
 
-import { useState } from 'react'
-import { Dialog } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import Link from 'next/link'
-
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
-]
+import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Navigation() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleProjectsClick = () => {
+    if (pathname === '/') {
+      const projectsSection = document.getElementById('projects');
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      router.push('/#projects');
+    }
+  };
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50">
-      <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5">
-            <span className="text-white text-xl font-bold">Fureli Design</span>
+    <nav className="fixed w-full z-50 bg-gray-900/80 backdrop-blur-sm">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
+          <Link href="/" className="text-white font-bold text-xl">
+            Fureli Design
           </Link>
-        </div>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
-            onClick={() => setMobileMenuOpen(true)}
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex space-x-8">
+            <Link 
+              href="/" 
+              className={`text-white hover:text-gray-300 transition-colors ${pathname === '/' ? 'font-semibold' : ''}`}
+            >
+              Home
+            </Link>
+            <button 
+              onClick={handleProjectsClick}
+              className="text-white hover:text-gray-300 transition-colors"
+            >
+              Projects
+            </button>
+            <Link 
+              href="/about" 
+              className={`text-white hover:text-gray-300 transition-colors ${pathname === '/about' ? 'font-semibold' : ''}`}
+            >
+              About
+            </Link>
+            <Link 
+              href="/contact" 
+              className={`text-white hover:text-gray-300 transition-colors ${pathname === '/contact' ? 'font-semibold' : ''}`}
+            >
+              Contact
+            </Link>
+          </div>
+
+          {/* Mobile Navigation Button */}
+          <button 
+            className="md:hidden text-white"
+            onClick={() => setIsOpen(!isOpen)}
           >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-semibold leading-6 text-white hover:text-gray-300"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
-      </nav>
-      <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-        <div className="fixed inset-0 z-50" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="-m-1.5 p-1.5">
-              <span className="text-white text-xl font-bold">Fureli Design</span>
-            </Link>
-            <button
-              type="button"
-              className="-m-2.5 rounded-md p-2.5 text-white"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-700">
-              <div className="space-y-2 py-6">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800"
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </div>
+
+        {/* Mobile Navigation Menu */}
+        {isOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              <Link 
+                href="/" 
+                className={`block px-3 py-2 rounded-md text-white hover:bg-gray-700 ${pathname === '/' ? 'bg-gray-700' : ''}`}
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+              </Link>
+              <button 
+                onClick={() => {
+                  handleProjectsClick();
+                  setIsOpen(false);
+                }}
+                className="block w-full text-left px-3 py-2 rounded-md text-white hover:bg-gray-700"
+              >
+                Projects
+              </button>
+              <Link 
+                href="/about" 
+                className={`block px-3 py-2 rounded-md text-white hover:bg-gray-700 ${pathname === '/about' ? 'bg-gray-700' : ''}`}
+                onClick={() => setIsOpen(false)}
+              >
+                About
+              </Link>
+              <Link 
+                href="/contact" 
+                className={`block px-3 py-2 rounded-md text-white hover:bg-gray-700 ${pathname === '/contact' ? 'bg-gray-700' : ''}`}
+                onClick={() => setIsOpen(false)}
+              >
+                Contact
+              </Link>
             </div>
           </div>
-        </Dialog.Panel>
-      </Dialog>
-    </header>
-  )
+        )}
+      </div>
+    </nav>
+  );
 } 

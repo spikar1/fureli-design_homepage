@@ -25,9 +25,9 @@ export default function Home() {
     <main className="min-h-screen mx-auto">
       <Navigation />
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-b from-gray-900/95 to-gray-800/80  text-white pointer-events-none">
+      <section className="relative h-screen flex items-center justify-center bg-gradient-to-b from-gray-900/95 to-gray-800/80  text-white">
         <ProjectMosaic />
-        <div className="mx-auto px-4 pointer-events-none">
+        <div className="mx-auto px-4">
           <motion.div
             variants={staggerContainer}
             initial="initial"

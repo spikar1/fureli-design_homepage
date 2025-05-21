@@ -1,10 +1,10 @@
-interface UnityInstance {
+export interface UnityInstance {
   Quit(): Promise<void>;
-  SendMessage(objectName: string, methodName: string, parameter?: any): void;
+  SendMessage(objectName: string, methodName: string, parameter?: string | number | boolean): void;
   SetFullscreen(fullscreen: boolean): void;
 }
 
-interface UnityConfig {
+export interface UnityConfig {
   dataUrl: string;
   frameworkUrl: string;
   codeUrl: string;
@@ -22,4 +22,6 @@ declare global {
       onProgress?: (progress: number) => void
     ): Promise<UnityInstance>;
   }
-} 
+}
+
+export {}; 

@@ -102,7 +102,6 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                 )}
                 <UnityWebGL
                   buildUrl={project.unityBuild}
-                  height="600px"
                   onLoad={() => setIsUnityLoading(false)}
                   onError={(error) => {
                     setIsUnityLoading(false);

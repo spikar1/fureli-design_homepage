@@ -3,13 +3,12 @@
 import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 import { motion } from 'framer-motion';
+import { UnityInstance } from '@/types/unity';
 
 interface UnityWebGLProps {
   buildUrl: string;
-  width?: string;
-  height?: string;
   onLoad?: () => void;
-  onError?: (error: any) => void;
+  onError?: (error: Error) => void;
 }
 
 interface Resolution {
@@ -27,13 +26,11 @@ const RESOLUTIONS: Resolution[] = [
 
 const UnityWebGL: React.FC<UnityWebGLProps> = ({
   buildUrl,
-  width = '100%',
-  height = '600px',
   onLoad,
   onError,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const unityInstanceRef = useRef<any>(null);
+  const unityInstanceRef = useRef<UnityInstance | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [selectedResolution, setSelectedResolution] = useState<Resolution>(RESOLUTIONS[0]);
   const [containerSize, setContainerSize] = useState({ width: '100%', height: '600px' });
@@ -84,7 +81,7 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
       onLoad?.();
     } catch (error) {
       console.error('Error loading Unity WebGL:', error);
-      onError?.(error);
+      onError?.(error as Error);
     }
   };
 

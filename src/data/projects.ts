@@ -4,13 +4,13 @@ export interface Project {
   title: string;
   shortDescription: string;
   fullDescription: string;
-  role?: string;
   year: string;
-  image: string;
-  thumbnail: string;
+  image?: string;
+  thumbnail?: string;
   video?: string;
   unityBuild?: string;
   link?: string;
+  itchEmbed?: string;
 }
 
 // Helper function to get project image paths
@@ -20,8 +20,8 @@ export const getProjectImages = (projectId: string) => {
   };
 
   return {
-    image: getImagePath('main'),
-    thumbnail: getImagePath('thumbnail'),
+    image: getImagePath('main.png'),
+    thumbnail: getImagePath('thumbnail.png'),
     video: `/projects/${projectId}/video.mp4`,
   };
 };
@@ -35,7 +35,9 @@ export const projects: Project[] = [
     fullDescription: 'Odyssey 2023 is an immersive adventure game that takes players on a journey through a beautifully crafted futuristic world. With stunning visuals and engaging gameplay mechanics, players must navigate through various challenges while uncovering the mysteries of this unique universe.',
     year: '2023',
     ...getProjectImages('odyssey'),
-    unityBuild: '/unity-builds/odyssey',
+    link: 'https://spikar1.itch.io/odyssey',
+    itchEmbed: '<iframe frameborder="0" src="https://itch.io/embed/1477675?bg_color=455c7b&amp;fg_color=ffffff&amp;link_color=da727e&amp;border_color=687190" width="552" height="167"><a href="https://spikar1.itch.io/odd-odyssey">Odd Odyssey by spikar1</a></iframe>',
+
   },
   {
     title: 'Odd Odyssey',
@@ -45,7 +47,7 @@ export const projects: Project[] = [
     fullDescription: 'Odd Odyssey is a charming puzzle-platformer that combines classic platforming elements with innovative puzzle mechanics. Players control a unique character with special abilities, solving puzzles and overcoming obstacles in a world filled with surprises and challenges.',
     year: '2023',
     ...getProjectImages('odd-odyssey'),
-    unityBuild: '/unity-builds/odd-odyssey',
+    itchEmbed: '<iframe frameborder="0" src="https://itch.io/embed/1379102?bg_color=455c7b&amp;fg_color=ffffff&amp;link_color=da727e&amp;border_color=687190" width="552" height="167"><a href="https://spikar1.itch.io/odd-odyssey">Odd Odyssey by spikar1</a></iframe>',
   },
   {
     title: 'Steffen Furelis Pattern Puzzle',
@@ -58,6 +60,7 @@ export const projects: Project[] = [
 
 After gaining funding from Viken Filminstitutt the game has been remade from the ground up, adding new mechanics and graphics.`,
     unityBuild: '/unity-builds/pattern-puzzle',
+    itchEmbed: '<iframe frameborder="0" src="https://itch.io/embed/1723876?bg_color=9196c0&amp;fg_color=222222&amp;link_color=faf98b&amp;border_color=4e5159" width="552" height="167"><a href="https://spikar1.itch.io/gate-pattern-puzzle">Steffen Fureli\'s Pattern Puzzle by spikar1</a></iframe>',
     ...getProjectImages('pattern-puzzle'),
   },
   {
@@ -78,12 +81,14 @@ Rather than a cold copy, our version introduces new levels, new mechanics, and a
     id: 'gas-control-repair',
     year: '2020',
     shortDescription: 'A Global Game Jam project about repairing gas control systems through pattern matching.',
-    fullDescription: `This was a Global Game Jam game made at Bergen Game Jam 2020.
-We were a group of six people that was placed in a random group to make a game in 48 hours. The theme for the Jam was "Repair".
+    fullDescription: `Gas Control Repair was developed during the Bergen Game Jam 2020 as part of the Global Game Jam event. Working with a team of six developers, we embraced the theme "Repair" to create an engaging puzzle game.
 
-In this project I did all programming, implementation and was group leader. The design evolved very much from iterations and playtesting by paper prototypes.
+As the project lead and primary programmer, I guided the team through rapid prototyping and iterative design. The game mechanics evolved through extensive playtesting and paper prototyping sessions, resulting in a refined and intuitive gameplay experience.
 
-The goal of this game is to navigate through nodes on the map to the right, by building all patterns along a path on the left side. The game is played with both WASD and arrow keys for the crane and map controls, in that order.`,
+In Gas Control Repair, players must master a unique control scheme:
+• Use WASD keys to control the crane
+• Use arrow keys to navigate the map
+The objective is to repair gas control systems by matching patterns on the left side while navigating through nodes on the right side of the screen.`,
     link: 'https://globalgamejam.org/2020/games/gas-control-repair-9',
     ...getProjectImages('gas-control-repair'),
   },
@@ -115,7 +120,6 @@ Our artist is a beast in Pixel Art, so our graphical style leaned towards retro 
 In retrospect the design didn't work as well as we hoped, but the game do look stunning!
 
 In this project my role was a Game Designer and Technical Artist. I did all graphical implementations and visual effects.`,
-    role: 'Game Designer & Technical Artist',
     link: 'https://globalgamejam.org/2018/games/cybility',
     ...getProjectImages('cybility'),
   },
@@ -145,7 +149,6 @@ In this four player game two players must cooperate to drive one vehicle, contro
 We were a group of five people that was placed in a random group to make a game in 48 hours. The theme for the Jam was "Wave", and that was the basis for the visual style we implemented.
 
 I was in charge of gameplay design and programming, plus I did all visual implementations and effects.`,
-    role: 'Gameplay Designer & Programmer',
     link: 'https://globalgamejam.org/2017/games/cascade',
     ...getProjectImages('cascade'),
   },

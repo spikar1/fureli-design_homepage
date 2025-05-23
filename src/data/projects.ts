@@ -9,6 +9,7 @@ export interface Project {
   thumbnail?: string;
   video?: string;
   unityBuild?: string;
+  unityVersion?: '5' | 'new';
   link?: string;
   itchEmbed?: string;
 }
@@ -150,6 +151,8 @@ We were a group of five people that was placed in a random group to make a game 
 
 I was in charge of gameplay design and programming, plus I did all visual implementations and effects.`,
     link: 'https://globalgamejam.org/2017/games/cascade',
+    unityBuild: '/unity-builds/cascade',
+    unityVersion: '5',
     ...getProjectImages('cascade'),
   },
   {

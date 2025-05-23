@@ -113,8 +113,8 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                 )}
                 <UnityWebGL
                   buildUrl={project.unityBuild}
+                  unityVersion={project.unityVersion}
                   onLoad={() => setIsUnityLoading(false)}
-                  
                   onError={(error) => {
                     setIsUnityLoading(false);
                     setUnityError('Failed to load Unity WebGL build. Please try again.');

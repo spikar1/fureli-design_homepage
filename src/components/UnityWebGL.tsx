@@ -9,6 +9,7 @@ interface UnityWebGLProps {
   buildUrl: string;
   onLoad?: () => void;
   onError?: (error: Error) => void;
+  unityVersion?: '5' | 'new';
 }
 
 interface Resolution {
@@ -28,6 +29,7 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
   buildUrl,
   onLoad,
   onError,
+  unityVersion = 'new',
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const unityInstanceRef = useRef<UnityInstance | null>(null);
@@ -45,41 +47,90 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    console.log('Unity version:', unityVersion);
+  }, [unityVersion]);
+
   const loadUnity = async () => {
+    
     try {
       if (!containerRef.current) return;
 
       // Extract the build name from the buildUrl
       const buildName = buildUrl.split('/').pop() || '';
 
-      // Create a canvas element for Unity
-      const canvas = document.createElement('canvas');
-      canvas.id = 'unity-canvas';
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
-      containerRef.current.appendChild(canvas);
+      // Remove any previous canvas or Unity instance
+      containerRef.current.innerHTML = '';
 
-      // Load the Unity WebGL build
-      const unityInstance = await window.createUnityInstance(
-        canvas,
-        {
-          dataUrl: `${buildUrl}/Build/${buildName}.data`,
-          frameworkUrl: `${buildUrl}/Build/${buildName}.framework.js`,
-          codeUrl: `${buildUrl}/Build/${buildName}.wasm`,
-          streamingAssetsUrl: `${buildUrl}/StreamingAssets`,
-          companyName: 'Fureli Design',
-          productName: 'Unity WebGL Project',
-          productVersion: '1.0',
+      // Branch logic based on unityVersion
+      if (unityVersion === '5') {
+        // --- UNITY 5 LOADING LOGIC ---
+        // Create a div for Unity 5 (UnityLoader will handle the canvas)
+        const unityDiv = document.createElement('div');
+        unityDiv.id = 'unityContainer';
+        unityDiv.style.width = '100%';
+        unityDiv.style.height = '100%';
+        containerRef.current.appendChild(unityDiv);
 
-        },
-        (progress: number) => {
-          // Handle loading progress
-          console.log(`Loading progress: ${progress * 100}%`);
-        }
-      );
+        // Load UnityLoader.js dynamically
+        const script = document.createElement('script');
+        script.src = `${buildUrl}/UnityLoader.js`;
+        script.onload = () => {
+          // @ts-ignore
+          if (window.UnityLoader) {
+            // @ts-ignore
+            unityInstanceRef.current = window.UnityLoader.instantiate(
+              'unityContainer',
+              `${buildUrl}/Build.json`,
+              {
+                onProgress: (instance: any, progress: number) => {
+                  console.log(`Loading progress: ${progress * 100}%`);
+                },
+                Module: {
+                  onRuntimeInitialized: () => {
+                    onLoad?.();
+                  },
+                },
+              }
+            );
+          } else {
+            onError?.(new Error('UnityLoader not found after script load.'));
+          }
+        };
+        script.onerror = (e) => {
+          onError?.(new Error('Failed to load UnityLoader.js'));
+        };
+        document.body.appendChild(script);
+      } else {
+        // --- NEW UNITY LOADING LOGIC ---
+        // Create a canvas element for Unity
+        const canvas = document.createElement('canvas');
+        canvas.id = 'unity-canvas';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        containerRef.current.appendChild(canvas);
 
-      unityInstanceRef.current = unityInstance;
-      onLoad?.();
+        // Load the Unity WebGL build
+        // @ts-ignore
+        const unityInstance = await window.createUnityInstance(
+          canvas,
+          {
+            dataUrl: `${buildUrl}/Build/${buildName}.data`,
+            frameworkUrl: `${buildUrl}/Build/${buildName}.framework.js`,
+            codeUrl: `${buildUrl}/Build/${buildName}.wasm`,
+            streamingAssetsUrl: `${buildUrl}/StreamingAssets`,
+            companyName: 'Fureli Design',
+            productName: 'Unity WebGL Project',
+            productVersion: '1.0',
+          },
+          (progress: number) => {
+            // Handle loading progress
+            console.log(`Loading progress: ${progress * 100}%`);
+          }
+        );
+        unityInstanceRef.current = unityInstance;
+        onLoad?.();
+      }
     } catch (error) {
       console.error('Error loading Unity WebGL:', error);
       onError?.(error as Error);
@@ -188,11 +239,22 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
           </button>
         </div>
       </div>
-      <Script
-        src={`${buildUrl}/${buildName}.loader.js`}
+      {/* Loader script for new Unity only; Unity 5 loads via dynamic script */}
+      {unityVersion !== '5' && (
+        <Script
+          src={`${buildUrl}/${buildName}.loader.js`}
+          onLoad={loadUnity}
+          onError={onError}
+        />
+      )}
+      {/* For Unity 5, call loadUnity on mount via useEffect */}
+      {unityVersion === '5' && (
+        <Script
+        src={`${buildUrl}/Unityloader.js`}
         onLoad={loadUnity}
         onError={onError}
       />
+      )}
     </div>
   );
 };

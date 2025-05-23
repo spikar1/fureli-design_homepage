@@ -70,6 +70,7 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
           companyName: 'Fureli Design',
           productName: 'Unity WebGL Project',
           productVersion: '1.0',
+
         },
         (progress: number) => {
           // Handle loading progress
@@ -145,7 +146,7 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
             width: containerSize.width,
             height: containerSize.height,
           }}
-          className="bg-black mx-auto"
+          className="bg-black mx-auto rounded-2xl overflow-hidden drop-shadow-gray-950 drop-shadow-md"
           animate={{
             width: containerSize.width,
             height: containerSize.height,

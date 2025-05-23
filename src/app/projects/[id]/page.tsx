@@ -38,17 +38,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
         className="container mx-auto px-4 py-16"
       >
         <div className="grid grid-cols-12 gap-8">
-          {project.image && (
-            <div className="col-span-12 rounded-lg overflow-hidden flex justify-center bg-gray-800">
-              <Image 
-                src={project.image} 
-                alt={project.title} 
-                className="max-w-full max-h-[80vh] w-auto h-auto object-contain" 
-                width={1000}
-                height={1000}
-              />
-            </div>
-          )}
+          
           <div className="col-span-12">
             <div className="flex items-center gap-4 mb-8">
               <Link href="/" className="text-blue-400 hover:text-blue-300">
@@ -64,7 +54,17 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
             >
               {project.title}
             </motion.h1>
-
+            {project.image && (
+            <div className="col-span-12 rounded-lg overflow-hidden flex justify-center bg-gray-800 drop-shadow-gray-950 drop-shadow-md mb-6">
+              <Image 
+                src={project.image} 
+                alt={project.title} 
+                className="max-w-full max-h-[80vh] w-auto h-auto object-contain" 
+                width={1000}
+                height={1000}
+              />
+            </div>
+          )}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -91,7 +91,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
             >
               <div className="relative">
                 {isUnityLoading && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80 z-20">
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80 z-20 ">
                     <div className="text-center">
                       <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                       <p className="text-blue-400">Loading Unity WebGL...</p>
@@ -114,6 +114,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                 <UnityWebGL
                   buildUrl={project.unityBuild}
                   onLoad={() => setIsUnityLoading(false)}
+                  
                   onError={(error) => {
                     setIsUnityLoading(false);
                     setUnityError('Failed to load Unity WebGL build. Please try again.');

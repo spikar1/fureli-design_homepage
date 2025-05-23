@@ -20,12 +20,12 @@ export const ProjectImage: React.FC<ProjectImageProps> = ({
   width,
   height,
 }) => {
-  const [imgSrc, setImgSrc] = useState(`/projects/${projectId}/${name}.jpg`);
+  const [imgSrc, setImgSrc] = useState(`/projects/${projectId}/${name}.png`);
   const [hasError, setHasError] = useState(false);
 
   const handleError = () => {
     if (!hasError) {
-      setImgSrc(`/projects/${projectId}/${name}.png`);
+      setImgSrc(`/projects/${projectId}/${name}.jpg`);
       setHasError(true);
     }
   };

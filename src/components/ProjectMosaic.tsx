@@ -45,7 +45,7 @@ export const ProjectMosaic = () => {
           <div className="text-white text-xl">Loading...</div>
         </div>
       )}
-      <div className={`grid grid-cols-6 p-1 -z-10 w-full h-full absolute ${imagesLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}>
+      <div className={`grid grid-cols-6 -z-10 w-full h-full absolute ${imagesLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500 `}>
         {shuffledProjects.map(({ project, type }, index) => (
           <Link
             key={`${project.id}-${type}-${index}`}

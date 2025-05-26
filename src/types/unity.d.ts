@@ -21,6 +21,8 @@ declare global {
       config: UnityConfig,
       onProgress?: (progress: number) => void
     ): Promise<UnityInstance>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    UnityLoader: any;
   }
 }
 

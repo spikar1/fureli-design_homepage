@@ -51,6 +51,8 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
     console.log('Unity version:', unityVersion);
   }, [unityVersion]);
 
+  
+
   const loadUnity = async () => {
     
     try {
@@ -76,13 +78,12 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
         const script = document.createElement('script');
         script.src = `${buildUrl}/UnityLoader.js`;
         script.onload = () => {
-          // @ts-ignore
-          if (window.UnityLoader) {
-            // @ts-ignore
+          if ((window as Window).UnityLoader) {
             unityInstanceRef.current = window.UnityLoader.instantiate(
               'unityContainer',
               `${buildUrl}/Build.json`,
               {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onProgress: (instance: any, progress: number) => {
                   console.log(`Loading progress: ${progress * 100}%`);
                 },
@@ -97,7 +98,7 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
             onError?.(new Error('UnityLoader not found after script load.'));
           }
         };
-        script.onerror = (e) => {
+        script.onerror = () => {
           onError?.(new Error('Failed to load UnityLoader.js'));
         };
         document.body.appendChild(script);
@@ -111,7 +112,6 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
         containerRef.current.appendChild(canvas);
 
         // Load the Unity WebGL build
-        // @ts-ignore
         const unityInstance = await window.createUnityInstance(
           canvas,
           {

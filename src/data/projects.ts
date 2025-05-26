@@ -28,6 +28,52 @@ export const getProjectImages = (projectId: string) => {
 };
 
 export const projects: Project[] = [
+    
+  {
+    title: 'Fruitbus',
+    tags: ['Unity', 'Cozy', 'Steam'],
+    id: 'fruitbus',
+    year: '2024',
+    shortDescription: 'Fruitbus is a cute culinary adventure, set in an open world where taste is everything.',
+    fullDescription: `Fruitbus is a cute culinary adventure, set in an open world where taste is everything. Upgrade your trusty truck and visit a whole world of new destinations together. 
+    
+    Discover fresh fruits and vegetables on each island of the Gustum archipelago, learn their customs and cook meals that will make someone’s day.`,
+    link: 'https://store.steampowered.com/app/2300000/Fruitbus/',
+    ...getProjectImages('fruitbus'),
+  },
+  {
+    title: 'Bukkene Bruse til Bjørneparken',
+    tags: ['Unity', 'Android', 'Ios'],
+    id: 'bukkene-bruse-til-bjorneparken',
+    year: '2024',
+    shortDescription: 'In the Bukkene Bruse game, you have to drive the guests to the Bear Park without being caught by the troll.',
+    fullDescription: 'Bukkene Bruse til Bjørneparken is a game about driving guests to the Bear Park without being caught by the troll.',
+    ...getProjectImages('bukkene-bruse-til-bjorneparken'),
+  },
+  {
+    title: 'Nordpeis Configurator',
+    tags: ['Unity', 'WebGL', 'Needle-Engine'],
+    id: 'nordpeis-configurator',
+    year: '2024',
+    shortDescription: 'Nordpeis Configurator is a WebGL tool for configuring fireplaces.',
+    fullDescription: `Nordpeis Configurator is a WebGL tool for configuring fireplaces.
+
+    It is built using the Needle-Engine, a modern WebGL engine for building 3D apps.`,
+    link: 'https://configurator.nordpeis.com/en',
+    ...getProjectImages('nordpeis-configurator'),
+  },
+  {
+    title: 'Gårdsdetektivene',
+    tags: ['Unity', 'Kidsgame', 'Minigames'],
+    id: 'gardsdetektivene',
+    year: '2024',
+    shortDescription: 'Gårdsdetektivene is a collection of minigames for kids.',
+    fullDescription: `Gårdsdetektivene is a collection of minigames for kids.
+
+    It is built using the Unity game engine.`,
+    ...getProjectImages('gardsdetektivene'),
+    link: 'https://www.dyreparken.no/kutoppen/spill-gardsdetektivene-pa-kutoppen/',
+  },
   {
     title: 'Odyssey',
     tags: ['Game Development', 'Adventure', '2023'],

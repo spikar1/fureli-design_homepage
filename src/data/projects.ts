@@ -38,10 +38,10 @@ export const projects: Project[] = [
     fullDescription: `Fruitbus is a cute culinary adventure, set in an open world where taste is everything. Upgrade your trusty truck and visit a whole world of new destinations together. 
     
     Discover fresh fruits and vegetables on each island of the Gustum archipelago, learn their customs and cook meals that will make someone’s day.`,
-    link: 'https://store.steampowered.com/app/2300000/Fruitbus/',
+    link: 'https://www.krillbite.com/fruitbus',
     ...getProjectImages('fruitbus'),
   },
-  {
+  { 
     title: 'Bukkene Bruse til Bjørneparken',
     tags: ['Unity', 'Android', 'Ios'],
     id: 'bukkene-bruse-til-bjorneparken',
@@ -49,6 +49,7 @@ export const projects: Project[] = [
     shortDescription: 'In the Bukkene Bruse game, you have to drive the guests to the Bear Park without being caught by the troll.',
     fullDescription: 'Bukkene Bruse til Bjørneparken is a game about driving guests to the Bear Park without being caught by the troll.',
     ...getProjectImages('bukkene-bruse-til-bjorneparken'),
+    link: 'https://bjorneparken.no/bukkene-bruse/',
   },
   {
     title: 'Nordpeis Configurator',
@@ -119,7 +120,7 @@ After gaining funding from Viken Filminstitutt the game has been remade from the
     fullDescription: `Forest Spirits is a game made by and published by myself with the help of a small team of four people. The game is simple at its core, and heavily based on the old classic Color Lines.
 
 Rather than a cold copy, our version introduces new levels, new mechanics, and a new scoring system.`,
-    link: 'https://play.google.com/store/apps/details?id=com.fureli.forestspirits',
+    link: 'https://play.google.com/store/apps/details?id=com.FureliDesign.LilSprouts&hl=en',
     ...getProjectImages('forest-spirits'),
   },
   {

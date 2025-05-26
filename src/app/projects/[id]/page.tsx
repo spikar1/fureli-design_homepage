@@ -139,8 +139,16 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                 <h3 className="text-gray-400 mb-1">Year</h3>
                 <p>{project.year}</p>
               </div>
+          {project.link && (
+            <div className="col-span-12 md:col-span-6">
+                <Link href={project.link} className="text-blue-400 hover:text-blue-300">
+                  Visit Website
+                </Link>
+            </div>
+          )}
             </div>
           </motion.div>
+          
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

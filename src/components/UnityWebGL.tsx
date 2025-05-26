@@ -41,7 +41,7 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
   useEffect(() => {
     // Cleanup function to destroy Unity instance when component unmounts
     return () => {
-      if (unityInstanceRef.current) {
+      if (unityInstanceRef.current && typeof unityInstanceRef.current.Quit === 'function') {
         unityInstanceRef.current.Quit();
       }
     };

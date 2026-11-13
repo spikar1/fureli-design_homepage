@@ -82,6 +82,28 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
             </motion.div>
           </div>
 
+          {project.video && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="col-span-12"
+            >
+              <div className="rounded-lg overflow-hidden bg-gray-800 drop-shadow-gray-950 drop-shadow-md flex justify-center">
+                <video
+                  src={project.video}
+                  poster={project.videoPoster}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="max-w-full max-h-[80vh] w-auto h-auto"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </motion.div>
+          )}
+
           {project.unityBuild && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}

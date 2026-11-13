@@ -8,6 +8,7 @@ export interface Project {
   image?: string;
   thumbnail?: string;
   video?: string;
+  videoPoster?: string;
   unityBuild?: string;
   unityVersion?: '5' | 'new';
   link?: string;
@@ -23,7 +24,6 @@ export const getProjectImages = (projectId: string) => {
   return {
     image: getImagePath('main.png'),
     thumbnail: getImagePath('thumbnail.png'),
-    video: `/projects/${projectId}/video.mp4`,
   };
 };
 
@@ -40,6 +40,8 @@ export const projects: Project[] = [
     Discover fresh fruits and vegetables on each island of the Gustum archipelago, learn their customs and cook meals that will make someone’s day.`,
     link: 'https://www.krillbite.com/fruitbus',
     ...getProjectImages('fruitbus'),
+    video: '/projects/fruitbus/video.mp4',
+    videoPoster: '/projects/fruitbus/video-poster.jpg',
   },
   { 
     title: 'Bukkene Bruse til Bjørneparken',

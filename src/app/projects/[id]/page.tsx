@@ -50,6 +50,7 @@ const toParagraphs = (text: string) =>
 
 function Details({ project }: { project: Project }) {
   const rows: [string, string | undefined][] = [
+    ['Type', project.type],
     ['Year', project.year],
     ['Context', project.context],
     ['Role', project.role],

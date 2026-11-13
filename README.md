@@ -20,7 +20,7 @@ Images and videos (`*.png`, `*.jpg`, `*.mp4`) are stored with **Git LFS**. Run `
 - `src/app/layout.tsx`: fonts (Bricolage Grotesque for `font-display`, Inter for `font-sans`) and site metadata.
 - `src/components/`
   - `Navigation.tsx`, `Footer.tsx`: on every page
-  - `FeaturedProjectCard.tsx` (hover video preview), `ProjectCard.tsx` (archive grid), `ProjectMeta.tsx` (overline + chips), `Chip.tsx`, `ButtonLink.tsx`
+  - `FeaturedSlider.tsx` (Steam-style carousel on the homepage), `FeaturedProjectCard.tsx` (hover video preview), `ProjectCard.tsx` (archive grid), `ProjectMeta.tsx` (overline + chips), `Chip.tsx`, `ButtonLink.tsx`
   - `ProjectMosaic.tsx`: hero background
   - `VideoCarousel.tsx`, `PlayableBuild.tsx` + `UnityWebGL.tsx`: project page media
   - `SocialIcons.tsx`: icons shared by Footer and Contact
@@ -39,9 +39,10 @@ Add an entry to `projects` in `src/data/projects.ts`:
 | `id` | URL slug and folder name under `public/projects/` |
 | `title`, `year`, `shortDescription`, `fullDescription` | `fullDescription`: separate paragraphs with a blank line |
 | `context` | `'Commercial' \| 'Indie' \| 'Game jam' \| 'Competition' \| 'Student'`; shown as `year · context` |
+| `type` | `'Game' \| 'Level' \| 'Configurator' \| 'Editor'`; shown as the first (accent) chip and in the details panel |
 | `engine`, `platforms` | optional; shown as chips |
 | `role`, `team` | optional; shown in the project page details panel |
-| `featured` | optional 1–4; position in the homepage featured section |
+| `featured` | optional; position in the homepage featured slider |
 | `cover` | optional landscape image for the featured card (defaults to `main.png`) |
 | `videos` | optional; when present, the video is the hero media on the project page |
 | `unityBuild`, `unityVersion` | optional playable WebGL build |

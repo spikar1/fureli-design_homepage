@@ -3,6 +3,8 @@ export interface ProjectVideo {
   poster?: string;
 }
 
+export type ProjectType = 'Game' | 'Level' | 'Configurator' | 'Editor';
+
 export type ProjectContext = 'Commercial' | 'Indie' | 'Game jam' | 'Competition' | 'Student';
 
 export interface Project {
@@ -22,6 +24,8 @@ export interface Project {
   itchEmbed?: string;
   /** What kind of project this was. Shown in the overline: `year · context`. */
   context: ProjectContext;
+  /** What the project is. Shown as the first chip. */
+  type: ProjectType;
   /** e.g. 'Unity', 'Unity + Needle Engine'. Shown as a chip. */
   engine?: string;
   /** e.g. 'Steam', 'iOS', 'Android', 'Web', 'PC'. Shown as chips. */
@@ -51,6 +55,7 @@ export const projects: Project[] = [
   {
     title: 'Fruitbus',
     id: 'fruitbus',
+    type: 'Game',
     context: 'Commercial', engine: 'Unity', platforms: ['Steam'], featured: 1,
     year: '2024',
     shortDescription: 'Fruitbus is a cute culinary adventure, set in an open world where taste is everything.',
@@ -64,6 +69,7 @@ export const projects: Project[] = [
   { 
     title: 'Bukkene Bruse til Bjørneparken',
     id: 'bukkene-bruse-til-bjorneparken',
+    type: 'Game',
     context: 'Commercial', engine: 'Unity', platforms: ['iOS', 'Android'], featured: 2,
     cover: '/projects/bukkene-bruse-til-bjorneparken/thumbnail.png', // main.png is portrait
     year: '2024',
@@ -76,6 +82,7 @@ export const projects: Project[] = [
   {
     title: 'Nordpeis Configurator',
     id: 'nordpeis-configurator',
+    type: 'Configurator',
     context: 'Commercial', engine: 'Unity + Needle Engine', platforms: ['Web'],
     year: '2024',
     shortDescription: 'Nordpeis Configurator is a WebGL tool for configuring fireplaces.',
@@ -88,6 +95,7 @@ export const projects: Project[] = [
   {
     title: 'Gårdsdetektivene',
     id: 'gardsdetektivene',
+    type: 'Game',
     context: 'Commercial', engine: 'Unity',
     year: '2024',
     shortDescription: 'Gårdsdetektivene is a collection of minigames for kids.',
@@ -100,6 +108,7 @@ export const projects: Project[] = [
   {
     title: 'Odyssey',
     id: 'odyssey',
+    type: 'Game',
     context: 'Indie', // TODO(interview): confirm context
     shortDescription: 'An immersive adventure game set in a futuristic world.',
     fullDescription: 'Odyssey 2023 is an immersive adventure game that takes players on a journey through a beautifully crafted futuristic world. With stunning visuals and engaging gameplay mechanics, players must navigate through various challenges while uncovering the mysteries of this unique universe.',
@@ -116,6 +125,7 @@ export const projects: Project[] = [
   {
     title: 'Odd Odyssey',
     id: 'odd-odyssey',
+    type: 'Game',
     context: 'Indie', // TODO(interview): confirm context
     shortDescription: 'A quirky puzzle-platformer with unique mechanics.',
     fullDescription: 'Odd Odyssey is a charming puzzle-platformer that combines classic platforming elements with innovative puzzle mechanics. Players control a unique character with special abilities, solving puzzles and overcoming obstacles in a world filled with surprises and challenges.',
@@ -126,6 +136,7 @@ export const projects: Project[] = [
   {
     title: "Steffen Fureli's Pattern Puzzle",
     id: 'pattern-puzzle',
+    type: 'Game',
     context: 'Indie', engine: 'Unity', platforms: ['Web'], featured: 3,
     year: '2023',
     shortDescription: 'A pattern-matching puzzle game built on the foundation of Gas Control Repair.',
@@ -141,6 +152,7 @@ After gaining funding from Viken Filminstitutt the game has been remade from the
   {
     title: 'Forest Spirits',
     id: 'forest-spirits',
+    type: 'Game',
     context: 'Indie', platforms: ['Android'], role: 'Developer & publisher', team: 'Team of 4',
     year: '2023',
     shortDescription: 'A modern take on the classic Color Lines game with new mechanics and scoring system.',
@@ -153,6 +165,7 @@ Rather than a cold copy, our version introduces new levels, new mechanics, and a
   {
     title: 'Gas Control Repair',
     id: 'gas-control-repair',
+    type: 'Game',
     context: 'Game jam', role: 'Project lead & primary programmer', team: 'Team of 6',
     year: '2020',
     shortDescription: 'A Global Game Jam project about repairing gas control systems through pattern matching.',
@@ -170,6 +183,7 @@ The objective is to repair gas control systems by matching patterns on the left 
   {
     title: 'Knightball',
     id: 'knightball',
+    type: 'Game',
     context: 'Competition', role: 'Project lead & lead designer, all graphics implementation', team: 'Team of 6', featured: 4,
     year: '2020',
     shortDescription: 'A medieval sports game where players ram each other into a dragon\'s mouth.',
@@ -185,6 +199,7 @@ Knightball is about a sport in which there is no ball, only players. The goal of
   {
     title: 'Cybility',
     id: 'cybility',
+    type: 'Game',
     context: 'Game jam', role: 'Game designer & technical artist', team: 'Team of 4',
     year: '2018',
     shortDescription: 'A retro-style game where players can steal abilities from each other.',
@@ -202,6 +217,7 @@ In this project my role was a Game Designer and Technical Artist. I did all grap
   {
     title: 'Rocket Billies',
     id: 'rocket-billies',
+    type: 'Game',
     context: 'Competition', role: 'Gameplay programmer, graphics implementation', team: 'Team of 7',
     year: '2018',
     shortDescription: 'A four-player game where two players must cooperate to drive one vehicle.',
@@ -218,6 +234,7 @@ In this four player game two players must cooperate to drive one vehicle, contro
   {
     title: 'Cascade',
     id: 'cascade',
+    type: 'Game',
     context: 'Game jam', engine: 'Unity', platforms: ['Web'], role: 'Gameplay design & programming, visuals', team: 'Team of 5',
     year: '2017',
     shortDescription: 'A wave-based game created during Global Game Jam 2017.',
@@ -233,6 +250,7 @@ I was in charge of gameplay design and programming, plus I did all visual implem
   {
     title: 'That Pariah Game',
     id: 'that-pariah-game',
+    type: 'Game',
     context: 'Student', team: 'Team of 2',
     year: '2015',
     shortDescription: 'A 2D physics-based shooter inspired by Super Crate Box and Metroidvania games.',
@@ -249,6 +267,7 @@ But the vision remained.`,
   },
   {
     id: 'landscape-generator',
+    type: 'Editor',
     context: 'Student', engine: 'Unity + Houdini Engine', team: 'Solo (final-year project)',
     title: 'Landscape Generator/Editor',
     year: '2015',
@@ -264,6 +283,7 @@ The goal was to create a tool using Houdini and Houdini Engine for Unity in whic
   {
     title: 'Ibrahim Sands',
     id: 'ibrahim-sands',
+    type: 'Level',
     context: 'Student', engine: 'UDK', role: 'Level designer', team: 'Solo',
     year: '2014',
     shortDescription: 'A level designed and created in UDK for a 9-week project at Noroff Bergen.',
@@ -273,6 +293,7 @@ The goal was to create a tool using Houdini and Houdini Engine for Unity in whic
   {
     title: 'The Refinery',
     id: 'the-rafinery',
+    type: 'Level',
     context: 'Student', engine: 'UDK', role: 'Level designer', team: 'Solo',
     year: '2014',
     shortDescription: 'A factory-themed survival game level created in UDK.',
@@ -317,7 +338,7 @@ export const getAdjacentProjects = (id: string) => {
   };
 };
 
-/** Chips shown on cards and project pages: engine, then platforms. */
+/** Tech chips shown after the type chip: engine, then platforms. */
 export const getProjectChips = (project: Project): string[] => [
   ...(project.engine ? [project.engine] : []),
   ...(project.platforms ?? []),

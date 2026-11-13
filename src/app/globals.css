@@ -81,3 +81,9 @@ body {
   max-width: 100%;
   border-radius: 0.75rem;
 }
+
+/* Hero legibility layer: solid in the middle half, fading to nothing sideways. */
+.hero-focus {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 25%, #000 75%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 25%, #000 75%, transparent);
+}

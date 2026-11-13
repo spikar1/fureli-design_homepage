@@ -45,7 +45,7 @@ export default function FeaturedProjectCard({ project, priority = false }: Featu
           alt=""
           fill
           priority={priority}
-          sizes="(min-width: 1152px) 560px, (min-width: 768px) 50vw, 100vw"
+          sizes="(min-width: 640px) 540px, 86vw"
           className="object-cover transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
         />
         {previewing && video && (
@@ -69,7 +69,7 @@ export default function FeaturedProjectCard({ project, priority = false }: Featu
           </span>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-6 md:p-7">
+      <div className="flex flex-1 flex-col p-6">
         <ProjectOverline project={project} />
         <h3 className="mt-2 font-display text-2xl font-semibold tracking-tight text-text md:text-3xl">
           {project.title}

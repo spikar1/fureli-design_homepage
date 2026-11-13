@@ -11,12 +11,14 @@ export function ProjectOverline({ project, className = '' }: { project: Project;
   );
 }
 
-/** Engine + platform chips. Renders nothing when the project has neither. */
+/** Type chip (Game, Configurator, Editor), then engine + platform chips. */
 export function ProjectChips({ project, className = '' }: { project: Project; className?: string }) {
   const chips = getProjectChips(project);
-  if (chips.length === 0) return null;
   return (
     <ul className={`flex flex-wrap gap-1.5 ${className}`}>
+      <li>
+        <Chip tone="accent">{project.type}</Chip>
+      </li>
       {chips.map((chip) => (
         <li key={chip}>
           <Chip>{chip}</Chip>

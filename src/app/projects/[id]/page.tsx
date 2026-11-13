@@ -1,192 +1,201 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { projects } from '@/data/projects';
-import Navigation from '@/components/Navigation';
-import Link from 'next/link';
-import UnityWebGL from '@/components/UnityWebGL';
-import VideoCarousel from '@/components/VideoCarousel';
-import { useState } from 'react';
-import { use } from 'react';
+import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
+import ButtonLink from '@/components/ButtonLink';
+import VideoCarousel from '@/components/VideoCarousel';
+import PlayableBuild from '@/components/PlayableBuild';
+import { ProjectChips, ProjectOverline } from '@/components/ProjectMeta';
+import { getAdjacentProjects, getLinkLabel, getProject, projects, type Project } from '@/data/projects';
 
-export default function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
-  const resolvedParams = use(params);
-  const project = projects.find(p => p.id === resolvedParams.id);
-  const [isUnityLoading, setIsUnityLoading] = useState(true);
-  const [unityError, setUnityError] = useState<string | null>(null);
+type Params = { params: Promise<{ id: string }> };
 
-  if (!project) {
-    return (
-      <div className="min-h-screen bg-gray-900 text-white">
-        <Navigation />
-        <div className="container mx-auto px-4 py-16">
-          <h1 className="text-4xl font-bold mb-4">Project not found</h1>
-          <Link href="/" className="text-blue-400 hover:text-blue-300">
-            Return to Home
-          </Link>
-        </div>
-      </div>
-    );
-  }
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return projects.map((p) => ({ id: p.id }));
+}
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { id } = await params;
+  const project = getProject(id);
+  if (!project) return {};
+  const image = project.cover ?? project.image;
+  return {
+    title: project.title,
+    description: project.shortDescription,
+    openGraph: {
+      title: project.title,
+      description: project.shortDescription,
+      images: [{ url: image, alt: project.title }],
+    },
+    twitter: { card: 'summary_large_image', images: [image] },
+  };
+}
+
+/** Split the free-form description into paragraphs and drop source indentation. */
+const toParagraphs = (text: string) =>
+  text
+    .split(/\n\s*\n/)
+    .map((para) =>
+      para
+        .split('\n')
+        .map((line) => line.trim())
+        .join('\n')
+        .trim(),
+    )
+    .filter(Boolean);
+
+function Details({ project }: { project: Project }) {
+  const rows: [string, string | undefined][] = [
+    ['Year', project.year],
+    ['Context', project.context],
+    ['Role', project.role],
+    ['Team', project.team],
+    ['Engine', project.engine],
+    ['Platforms', project.platforms?.join(', ')],
+  ];
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <Navigation />
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="container mx-auto px-4 py-16"
-      >
-        <div className="grid grid-cols-12 gap-8">
-          
-          <div className="col-span-12">
-            <div className="flex items-center gap-4 mb-8">
-              <Link href="/" className="text-blue-400 hover:text-blue-300">
-                ← Back to Front Page
-              </Link>
+    <div className="rounded-2xl border border-line bg-surface p-6">
+      <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">Project details</h2>
+      <dl className="mt-4 divide-y divide-line">
+        {rows
+          .filter(([, value]) => value)
+          .map(([label, value]) => (
+            <div key={label} className="grid grid-cols-3 gap-4 py-3 text-sm">
+              <dt className="text-muted">{label}</dt>
+              <dd className="col-span-2 text-text">{value}</dd>
             </div>
+          ))}
+      </dl>
+      {project.link && (
+        <ButtonLink href={project.link} external className="mt-6 w-full">
+          {getLinkLabel(project.link)} <span aria-hidden="true">↗</span>
+        </ButtonLink>
+      )}
+    </div>
+  );
+}
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-5xl font-bold mb-6"
-            >
-              {project.title}
-            </motion.h1>
-            {project.image && (
-            <div className="col-span-12 rounded-lg overflow-hidden flex justify-center bg-gray-800 drop-shadow-gray-950 drop-shadow-md mb-6">
-              <Image 
-                src={project.image} 
-                alt={project.title} 
-                className="max-w-full max-h-[80vh] w-auto h-auto object-contain" 
-                width={1000}
-                height={1000}
+function AdjacentCard({ project, direction }: { project: Project; direction: 'previous' | 'next' }) {
+  const isNext = direction === 'next';
+  return (
+    <Link
+      href={`/projects/${project.id}`}
+      className={`group flex items-center gap-4 rounded-2xl border border-line bg-surface p-3 transition-colors hover:border-line-strong hover:bg-surface-2 ${
+        isNext ? 'flex-row-reverse text-right' : ''
+      }`}
+    >
+      <div className="relative aspect-video w-28 shrink-0 overflow-hidden rounded-lg bg-surface-2 sm:w-36">
+        <Image src={project.thumbnail} alt="" fill sizes="144px" className="object-cover" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+          {isNext ? 'Next project →' : '← Previous project'}
+        </p>
+        <p className="mt-1 truncate font-display text-lg font-semibold text-text group-hover:text-accent">
+          {project.title}
+        </p>
+      </div>
+    </Link>
+  );
+}
+
+export default async function ProjectPage({ params }: Params) {
+  const { id } = await params;
+  const project = getProject(id);
+  if (!project) notFound();
+
+  const { previous, next } = getAdjacentProjects(project.id);
+  const hasVideos = (project.videos?.length ?? 0) > 0;
+  const paragraphs = toParagraphs(project.fullDescription || project.shortDescription);
+
+  return (
+    <>
+      <Navigation />
+      <main className="mx-auto max-w-6xl px-4 pb-24 pt-28 sm:px-6 md:pt-32">
+        {/* Header */}
+        <header className="reveal max-w-3xl">
+          <Link
+            href="/#projects"
+            className="inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-accent"
+          >
+            <span aria-hidden="true">←</span> All projects
+          </Link>
+          <ProjectOverline project={project} className="mt-8" />
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-text md:text-6xl">
+            {project.title}
+          </h1>
+          <p className="mt-5 text-lg text-muted md:text-xl">{project.shortDescription}</p>
+          <ProjectChips project={project} className="mt-6" />
+        </header>
+
+        {/* Hero media: video first, otherwise the main image */}
+        <div className="reveal mt-10 md:mt-12" style={{ animationDelay: '120ms' }}>
+          {hasVideos ? (
+            <VideoCarousel videos={project.videos!} />
+          ) : (
+            <div className="flex justify-center overflow-hidden rounded-2xl border border-line bg-surface">
+              <Image
+                src={project.image}
+                alt={`${project.title} screenshot`}
+                width={1920}
+                height={1080}
+                priority
+                sizes="(min-width: 1152px) 1152px, 100vw"
+                className="h-auto max-h-[80vh] w-auto max-w-full object-contain"
               />
             </div>
           )}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-wrap gap-2 mb-8"
-            >
-              {project.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 bg-blue-600/20 text-blue-300 rounded-full text-sm"
-                >
-                  {tag}
-                </span>
-              ))}
-            </motion.div>
-          </div>
-
-          {project.videos && project.videos.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="col-span-12"
-            >
-              <VideoCarousel videos={project.videos} />
-            </motion.div>
-          )}
-
-          {project.unityBuild && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="col-span-12"
-            >
-              <div className="relative">
-                {isUnityLoading && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80 z-20 ">
-                    <div className="text-center">
-                      <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                      <p className="text-blue-400">Loading Unity WebGL...</p>
-                    </div>
-                  </div>
-                )}
-                {unityError && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80 z-20">
-                    <div className="text-center p-4">
-                      <p className="text-red-400 mb-4">{unityError}</p>
-                      <button
-                        onClick={() => window.location.reload()}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg"
-                      >
-                        Retry
-                      </button>
-                    </div>
-                  </div>
-                )}
-                <UnityWebGL
-                  buildUrl={project.unityBuild}
-                  unityVersion={project.unityVersion}
-                  onLoad={() => setIsUnityLoading(false)}
-                  onError={(error) => {
-                    setIsUnityLoading(false);
-                    setUnityError('Failed to load Unity WebGL build. Please try again.');
-                    console.error('Unity WebGL Error:', error);
-                  }}
-                />
-              </div>
-            </motion.div>
-          )}
-
-          
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="col-span-12 md:col-span-6"
-          >
-            <h2 className="text-2xl font-semibold mb-4">Project Details</h2>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-gray-400 mb-1">Year</h3>
-                <p>{project.year}</p>
-              </div>
-          {project.link && (
-            <div className="col-span-12 md:col-span-6">
-                <Link href={project.link} className="text-blue-400 hover:text-blue-300">
-                  Visit Website
-                </Link>
-            </div>
-          )}
-            </div>
-          </motion.div>
-          
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="col-span-12 md:col-span-6"
-          >
-            <h2 className="text-2xl font-semibold mb-4">Description</h2>
-            <p className="text-gray-300 leading-relaxed whitespace-pre-line">
-              {project.fullDescription || project.shortDescription}
-            </p>
-          </motion.div>
-
-                    <div className="col-span-12">
-            <div className="mb-8">
-                {//Image goes here
-                }
-            </div>
-          </div>
-          {project.itchEmbed && (
-            <div className="col-span-12">
-              <div dangerouslySetInnerHTML={{ __html: project.itchEmbed }} />
-            </div>
-          )}
         </div>
-      </motion.div>
-    </div>
+
+        {/* Playable build */}
+        {project.unityBuild && (
+          <section className="mt-16" aria-labelledby="play-heading">
+            <h2 id="play-heading" className="font-display text-2xl font-bold tracking-tight md:text-3xl">
+              Play in your browser
+            </h2>
+            <p className="mt-2 text-sm text-muted">Best on desktop with a keyboard. The build may take a moment to load.</p>
+            <div className="mt-6">
+              <PlayableBuild buildUrl={project.unityBuild} unityVersion={project.unityVersion} />
+            </div>
+          </section>
+        )}
+
+        {/* Description + details */}
+        <div className="mt-16 grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">About the project</h2>
+            <div className="mt-6 max-w-prose space-y-5 text-base leading-relaxed text-text/85 md:text-lg">
+              {paragraphs.map((para, i) => (
+                <p key={i} className="whitespace-pre-line">
+                  {para}
+                </p>
+              ))}
+            </div>
+            {project.itchEmbed && (
+              <div
+                className="itch-embed mt-10 max-w-full overflow-hidden"
+                dangerouslySetInnerHTML={{ __html: project.itchEmbed }}
+              />
+            )}
+          </div>
+          <aside className="lg:col-span-4">
+            <div className="lg:sticky lg:top-24">
+              <Details project={project} />
+            </div>
+          </aside>
+        </div>
+
+        {/* Previous / next */}
+        <nav aria-label="More projects" className="mt-20 grid gap-4 border-t border-line pt-10 md:grid-cols-2">
+          <AdjacentCard project={previous} direction="previous" />
+          <AdjacentCard project={next} direction="next" />
+        </nav>
+      </main>
+      <Footer />
+    </>
   );
-} 
+}

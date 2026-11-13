@@ -230,21 +230,22 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
             width: containerSize.width,
             height: containerSize.height,
           }}
-          className="bg-black mx-auto rounded-2xl overflow-hidden drop-shadow-gray-950 drop-shadow-md"
+          className="bg-black mx-auto rounded-2xl overflow-hidden border border-line"
           animate={{
             width: containerSize.width,
             height: containerSize.height,
           }}
           transition={{ duration: 0.2 }}
         />
-        <div className="flex flex-wrap items-center gap-4 bg-gray-900/95 p-4 rounded-lg backdrop-blur-sm">
+        <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-surface p-3">
           <select
             value={selectedResolution.label}
             onChange={(e) => {
               const resolution = RESOLUTIONS.find(r => r.label === e.target.value);
               if (resolution) handleResolutionChange(resolution);
             }}
-            className="px-3 py-2 bg-gray-800 text-white rounded-lg"
+            aria-label="Game resolution"
+            className="rounded-full border border-line bg-surface-2 px-4 py-2 text-sm text-text"
           >
             {RESOLUTIONS.map((res) => (
               <option key={res.label} value={res.label}>
@@ -254,19 +255,19 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
           </select>
           <button
             onClick={handleMatchPageWidth}
-            className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
+            className="rounded-full border border-line bg-surface-2 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-line-strong hover:bg-white/5"
           >
             Match Page Width
           </button>
           <button
             onClick={handleFitToScreen}
-            className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
+            className="rounded-full border border-line bg-surface-2 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-line-strong hover:bg-white/5"
           >
             {isFullWidth ? 'Normal Size' : 'Fit to Screen'}
           </button>
           <button
             onClick={handleFullscreen}
-            className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
+            className="rounded-full border border-line bg-surface-2 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-line-strong hover:bg-white/5"
           >
             {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
           </button>

@@ -7,7 +7,7 @@ interface VideoCarouselProps {
   videos: ProjectVideo[];
 }
 
-const frameClass = 'rounded-lg overflow-hidden bg-gray-800 drop-shadow-gray-950 drop-shadow-md';
+const frameClass = 'rounded-2xl overflow-hidden border border-line bg-black';
 
 const VideoCarousel: React.FC<VideoCarouselProps> = ({ videos }) => {
   const [index, setIndex] = useState(0);
@@ -57,7 +57,7 @@ const VideoCarousel: React.FC<VideoCarouselProps> = ({ videos }) => {
           type="button"
           onClick={() => go(index - 1)}
           aria-label="Previous video"
-          className="absolute left-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-900/70 text-xl text-white hover:bg-gray-900/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
+          className="absolute left-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-ink/70 text-xl text-text backdrop-blur-sm hover:bg-ink/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
         >
           ‹
         </button>
@@ -65,7 +65,7 @@ const VideoCarousel: React.FC<VideoCarouselProps> = ({ videos }) => {
           type="button"
           onClick={() => go(index + 1)}
           aria-label="Next video"
-          className="absolute right-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-900/70 text-xl text-white hover:bg-gray-900/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
+          className="absolute right-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-ink/70 text-xl text-text backdrop-blur-sm hover:bg-ink/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
         >
           ›
         </button>
@@ -79,7 +79,7 @@ const VideoCarousel: React.FC<VideoCarouselProps> = ({ videos }) => {
             aria-label={`Show video ${i + 1}`}
             aria-current={i === index}
             className={`h-2.5 rounded-full transition-all ${
-              i === index ? 'w-6 bg-blue-400' : 'w-2.5 bg-gray-600 hover:bg-gray-500'
+              i === index ? 'w-6 bg-accent' : 'w-2.5 bg-line-strong hover:bg-muted'
             }`}
           />
         ))}

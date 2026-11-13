@@ -1,55 +1,34 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { Project } from '@/data/projects';
+import Image from 'next/image';
 import Link from 'next/link';
-import { ProjectImage } from './ProjectImage';
+import type { Project } from '@/data/projects';
+import { ProjectChips, ProjectOverline } from './ProjectMeta';
 
 interface ProjectCardProps {
   project: Project;
 }
 
+/** Compact card for the "More projects" grid. */
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <Link href={`/projects/${project.id}`}>
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 1 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.2 }}
-        whileHover={{ y: -10, scale: 1.02 }}
-        className="bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer drop-shadow-gray-950 drop-shadow-md"
-      >
-        <div className="aspect-video bg-gray-200">
-          {project.thumbnail && (
-            <ProjectImage
-              projectId={project.id}
-              name="thumbnail"
-              alt={project.title}
-              width={1920}
-              height={1080}
-              className="w-full h-full object-cover"
-            />
-          )} 
-        </div>
-        <div className="p-6">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="text-xl font-semibold text-gray-300">{project.title}</h3>
-            <span className="text-sm text-gray-200">{project.year}</span>
-          </div>
-          <p className="text-gray-400 mb-4">{project.shortDescription}</p>
-          <div className="flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-1 bg-gray-200 text-gray-700 text-sm rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      </motion.div>
+    <Link
+      href={`/projects/${project.id}`}
+      className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition duration-300 hover:-translate-y-1 hover:border-line-strong hover:bg-surface-2 hover:shadow-xl hover:shadow-black/40 motion-reduce:hover:translate-y-0"
+    >
+      <div className="relative aspect-video overflow-hidden bg-surface-2">
+        <Image
+          src={project.thumbnail}
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:group-hover:scale-100"
+        />
+      </div>
+      <div className="flex flex-1 flex-col p-5">
+        <ProjectOverline project={project} />
+        <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-text">{project.title}</h3>
+        <p className="mt-2 line-clamp-2 text-sm text-muted">{project.shortDescription}</p>
+        <ProjectChips project={project} className="mt-auto pt-4" />
+      </div>
     </Link>
   );
-} 
+}

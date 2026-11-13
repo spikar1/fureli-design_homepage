@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 import { motion } from 'framer-motion';
 import { UnityInstance } from '@/types/unity';
@@ -38,12 +38,40 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
   const [containerSize, setContainerSize] = useState({ width: '100%', height: '600px' });
   const [isFullWidth, setIsFullWidth] = useState(false);
 
-  useEffect(() => {
-    // Cleanup function to destroy Unity instance when component unmounts
+  const isMountedRef = useRef(true);
+
+  // Quit Unity without pulling its canvas out from under it. Unity's main loop
+  // keeps running for a few frames after Quit() is called and looks the canvas up
+  // by selector; if React has already removed it from the DOM, Unity throws
+  // "Cannot read properties of null (reading 'onwheel')". So park the canvas in an
+  // off-screen holder (non-zero size, still in the document) until Quit() resolves.
+  const quitUnity = (instance: UnityInstance | null, nodes: Node[]) => {
+    if (!instance || typeof instance.Quit !== 'function') {
+      nodes.forEach((n) => n.parentNode?.removeChild(n));
+      return;
+    }
+    const holder = document.createElement('div');
+    holder.setAttribute('aria-hidden', 'true');
+    holder.style.cssText =
+      'position:fixed;left:-10000px;top:0;width:16px;height:16px;overflow:hidden;pointer-events:none;visibility:hidden;';
+    nodes.forEach((n) => holder.appendChild(n));
+    document.body.appendChild(holder);
+    Promise.resolve()
+      .then(() => instance.Quit())
+      .catch(() => {})
+      .finally(() => holder.remove());
+  };
+
+  // useLayoutEffect so the cleanup runs during the commit, before the browser can
+  // schedule another Unity frame against a detached canvas.
+  useLayoutEffect(() => {
+    isMountedRef.current = true;
+    const container = containerRef.current;
     return () => {
-      if (unityInstanceRef.current && typeof unityInstanceRef.current.Quit === 'function') {
-        unityInstanceRef.current.Quit();
-      }
+      isMountedRef.current = false;
+      const nodes = container ? Array.from(container.childNodes) : [];
+      quitUnity(unityInstanceRef.current, nodes);
+      unityInstanceRef.current = null;
     };
   }, []);
 
@@ -56,7 +84,7 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
   const loadUnity = async () => {
     
     try {
-      if (!containerRef.current) return;
+      if (!isMountedRef.current || !containerRef.current) return;
 
       // Extract the build name from the buildUrl
       const buildName = buildUrl.split('/').pop() || '';
@@ -128,6 +156,11 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
             console.log(`Loading progress: ${progress * 100}%`);
           }
         );
+        // The user may have navigated away while the build was loading.
+        if (!isMountedRef.current) {
+          quitUnity(unityInstance, canvas.isConnected ? [] : [canvas]);
+          return;
+        }
         unityInstanceRef.current = unityInstance;
         onLoad?.();
       }

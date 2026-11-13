@@ -1,3 +1,8 @@
+export interface ProjectVideo {
+  src: string;
+  poster?: string;
+}
+
 export interface Project {
   tags: string[];
   id: string;
@@ -7,8 +12,7 @@ export interface Project {
   year: string;
   image?: string;
   thumbnail?: string;
-  video?: string;
-  videoPoster?: string;
+  videos?: ProjectVideo[];
   unityBuild?: string;
   unityVersion?: '5' | 'new';
   link?: string;
@@ -40,8 +44,7 @@ export const projects: Project[] = [
     Discover fresh fruits and vegetables on each island of the Gustum archipelago, learn their customs and cook meals that will make someone’s day.`,
     link: 'https://www.krillbite.com/fruitbus',
     ...getProjectImages('fruitbus'),
-    video: '/projects/fruitbus/video.mp4',
-    videoPoster: '/projects/fruitbus/video-poster.jpg',
+    videos: [{ src: '/projects/fruitbus/video.mp4', poster: '/projects/fruitbus/video-poster.jpg' }],
   },
   { 
     title: 'Bukkene Bruse til Bjørneparken',
@@ -52,8 +55,7 @@ export const projects: Project[] = [
     fullDescription: 'Bukkene Bruse til Bjørneparken is a game about driving guests to the Bear Park without being caught by the troll.',
     ...getProjectImages('bukkene-bruse-til-bjorneparken'),
     link: 'https://bjorneparken.no/bukkene-bruse/',
-    video: '/projects/bukkene-bruse-til-bjorneparken/video.mp4',
-    videoPoster: '/projects/bukkene-bruse-til-bjorneparken/video-poster.jpg',
+    videos: [{ src: '/projects/bukkene-bruse-til-bjorneparken/video.mp4', poster: '/projects/bukkene-bruse-til-bjorneparken/video-poster.jpg' }],
   },
   {
     title: 'Nordpeis Configurator',
@@ -88,8 +90,10 @@ export const projects: Project[] = [
     year: '2023',
     ...getProjectImages('odyssey'),
     link: 'https://spikar1.itch.io/odyssey',
-    video: '/projects/odyssey/video.mp4',
-    videoPoster: '/projects/odyssey/video-poster.jpg',
+    videos: [
+      { src: '/projects/odyssey/video.mp4', poster: '/projects/odyssey/video-poster.jpg' },
+      { src: '/projects/odyssey/video-2.mp4', poster: '/projects/odyssey/video-2-poster.jpg' },
+    ],
     itchEmbed: '<iframe frameborder="0" src="https://itch.io/embed/1477675?bg_color=455c7b&amp;fg_color=ffffff&amp;link_color=da727e&amp;border_color=687190" width="552" height="167"><a href="https://spikar1.itch.io/odd-odyssey">Odd Odyssey by spikar1</a></iframe>',
 
   },
@@ -116,8 +120,7 @@ After gaining funding from Viken Filminstitutt the game has been remade from the
     unityBuild: '/unity-builds/pattern-puzzle',
     itchEmbed: '<iframe frameborder="0" src="https://itch.io/embed/1723876?bg_color=9196c0&amp;fg_color=222222&amp;link_color=faf98b&amp;border_color=4e5159" width="552" height="167"><a href="https://spikar1.itch.io/gate-pattern-puzzle">Steffen Fureli\'s Pattern Puzzle by spikar1</a></iframe>',
     ...getProjectImages('pattern-puzzle'),
-    video: '/projects/pattern-puzzle/video.mp4',
-    videoPoster: '/projects/pattern-puzzle/video-poster.jpg',
+    videos: [{ src: '/projects/pattern-puzzle/video.mp4', poster: '/projects/pattern-puzzle/video-poster.jpg' }],
   },
   {
     title: 'Forest Spirits',
@@ -161,6 +164,7 @@ In this game I was project lead and lead designer. I did all implementation of g
 Knightball is about a sport in which there is no ball, only players. The goal of the game is to ram the other players into the mouth of the dragon, which in turn scores a goal. The team to lose all players first loses.`,
     link: 'https://globalgamejam.org/2020/games/knightball',
     ...getProjectImages('knightball'),
+    videos: [{ src: '/projects/knightball/video.mp4', poster: '/projects/knightball/video-poster.jpg' }],
   },
   {
     title: 'Cybility',

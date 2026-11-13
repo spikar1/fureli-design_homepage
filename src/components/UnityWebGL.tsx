@@ -250,7 +250,7 @@ const UnityWebGL: React.FC<UnityWebGLProps> = ({
       {/* For Unity 5, call loadUnity on mount via useEffect */}
       {unityVersion === '5' && (
         <Script
-        src={`${buildUrl}/Unityloader.js`}
+        src={`${buildUrl}/UnityLoader.js`}
         onLoad={loadUnity}
         onError={onError}
       />

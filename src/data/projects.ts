@@ -52,6 +52,8 @@ export const projects: Project[] = [
     fullDescription: 'Bukkene Bruse til Bjørneparken is a game about driving guests to the Bear Park without being caught by the troll.',
     ...getProjectImages('bukkene-bruse-til-bjorneparken'),
     link: 'https://bjorneparken.no/bukkene-bruse/',
+    video: '/projects/bukkene-bruse-til-bjorneparken/video.mp4',
+    videoPoster: '/projects/bukkene-bruse-til-bjorneparken/video-poster.jpg',
   },
   {
     title: 'Nordpeis Configurator',
@@ -86,6 +88,8 @@ export const projects: Project[] = [
     year: '2023',
     ...getProjectImages('odyssey'),
     link: 'https://spikar1.itch.io/odyssey',
+    video: '/projects/odyssey/video.mp4',
+    videoPoster: '/projects/odyssey/video-poster.jpg',
     itchEmbed: '<iframe frameborder="0" src="https://itch.io/embed/1477675?bg_color=455c7b&amp;fg_color=ffffff&amp;link_color=da727e&amp;border_color=687190" width="552" height="167"><a href="https://spikar1.itch.io/odd-odyssey">Odd Odyssey by spikar1</a></iframe>',
 
   },
@@ -112,6 +116,8 @@ After gaining funding from Viken Filminstitutt the game has been remade from the
     unityBuild: '/unity-builds/pattern-puzzle',
     itchEmbed: '<iframe frameborder="0" src="https://itch.io/embed/1723876?bg_color=9196c0&amp;fg_color=222222&amp;link_color=faf98b&amp;border_color=4e5159" width="552" height="167"><a href="https://spikar1.itch.io/gate-pattern-puzzle">Steffen Fureli\'s Pattern Puzzle by spikar1</a></iframe>',
     ...getProjectImages('pattern-puzzle'),
+    video: '/projects/pattern-puzzle/video.mp4',
+    videoPoster: '/projects/pattern-puzzle/video-poster.jpg',
   },
   {
     title: 'Forest Spirits',
